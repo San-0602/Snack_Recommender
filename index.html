@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Snack Recommender</title>
+</head>
+<body>
+  <h2>Snack Recommender 🍫</h2>
+  <label>Mood:</label>
+  <select id="mood">
+    <option>sad</option>
+    <option>stressed</option>
+    <option>bored</option>
+    <option>happy</option>
+    <option>excited</option>
+  </select>
+
+  <br><br>
+
+  <label>Time of Day:</label>
+  <select id="time">
+    <option>morning</option>
+    <option>afternoon</option>
+    <option>evening</option>
+    <option>night</option>
+  </select>
+
+  <br><br>
+
+  <button onclick="getSnack()">Recommend Snack</button>
+  <p id="result"></p>
+
+  <script>
+    async function getSnack() {
+      let mood = document.getElementById("mood").value;
+      let time = document.getElementById("time").value;
+
+      let response = await fetch("http://127.0.0.1:5000/recommend", {
+        method: "POST",
+        headers: {"Content-Type": "application/json"},
+        body: JSON.stringify({mood: mood, time: time})
+      });
+
+      let data = await response.json();
+      document.getElementById("result").innerText = "Snack: " + data.snack;
+    }
+  </script>
+</body>
+</html>
